@@ -1,0 +1,17 @@
+NumberOfEnemyShips: 4
+TypeOfEnemyShips: DRONE
+EnemyTrajectory: VERTICAL
+NumberOfEnemyShips: 2
+TypeOfEnemyShips: GUN_SHIP
+EnemyTrajectory: COS
+NumberOfEnemyShips: 1
+TypeOfEnemyShips: BATTLE_SHIP
+EnemyTrajectory: VERTICAL
+NumberOfEnemyShips: 3
+TypeOfEnemyShips: DESTROYER
+EnemyTrajectory: COS
+NumberOfEnemyShips: 2
+TypeOfEnemyShips: GUN_SHIP
+EnemyTrajectory: VERTICAL
+
+
