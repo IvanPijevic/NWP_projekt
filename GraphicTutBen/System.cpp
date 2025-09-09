@@ -335,7 +335,7 @@ void System::updateBullets(float deltaTime)
 				// Delete bullet
 				m_bullets[j] = std::move(m_bullets.back());
 				m_bullets.pop_back();
-				--j; // Smanji j jer smo uklonili element
+				--j;
 				if (m_enemyVec[i]->getHealthPoints() <= 0)
 				{
 					// Update destroyed ships
@@ -343,8 +343,8 @@ void System::updateBullets(float deltaTime)
 					// Delete enemy ship from vector
 					m_enemyVec[i] = std::move(m_enemyVec.back());
 					m_enemyVec.pop_back();
-					--i; // Smanji i jer smo uklonili element
-					break; // Prekini unutrašnju petlju jer je neprijatelj obrisan
+					--i; 
+					break;
 				}
 			}
 		}

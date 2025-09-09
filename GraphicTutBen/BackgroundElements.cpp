@@ -92,17 +92,3 @@ void BackgroundElements::drawStars(Engine::SpriteBatch& spriteBatch)
 
 	}
 }
-
-//void BackgroundElements::initMainMenuBackground()
-//{
-//	m_textureMainMenu = Engine::ResourceManager::getTexture("Textures/PNG/UI/button/Background/MainMenuBackground.png");
-//}
-//
-//void BackgroundElements::drawMainMenuBackground(int screenWidth, int screenHeight, Engine::SpriteBatch& spriteBatch)
-//{
-//	glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
-//
-//	glm::vec4 posAndDim(-screenWidth / 2, -screenHeight / 2, screenWidth, screenHeight);
-//
-//	spriteBatch.draw(posAndDim, uv, m_textureMainMenu.id, 0.0f, m_color);
-//}

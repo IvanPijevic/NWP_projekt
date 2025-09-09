@@ -18,9 +18,6 @@ void Level::init(const std::string& fileName)
 
 	std::string temp;
 
-	//file >> temp >> m_numberOfWaves;
-	//std::getline(file, temp); 
-
 	while (std::getline(file, temp))
 	{
 		m_levelData.push_back(temp);
