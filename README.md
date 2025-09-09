@@ -4,6 +4,8 @@ Kontrole: W - gore, S - dole, A - lijevo, D - desno, SPACE - pucanje, Q - 1. wea
 
 Postoji editor (level.txt) u koji se mogu ubacivati dodatni valovi sa različitim putanjama i različitim tipovima neprijatelja. 
 
+Main menu - Options nije postavit, fullscreen ima malih problema koje nisam uspio rješiti tako da je disable. 
+
 Za pokretanje:
 
 poslije kloniranja mozda treba napraviti "Retarget Projects" na oba projekta (Engine i GraphicTutBen), pokrece se u x86,
