@@ -8,7 +8,7 @@ Main menu - Options nije postavit, fullscreen ima malih problema koje nisam uspi
 
 Za pokretanje:
 
-poslije kloniranja mozda treba napraviti "Retarget Projects" na oba projekta (Engine i GraphicTutBen), pokrece se u x86,
+poslije kloniranja i pokušaja pokretanja u Release ili Debug (x86) treba napraviti "Retarget Projects" na oba projekta (Engine i GraphicTutBen),
 sa linka skinuti potrebne .dll fajlove i kopirati ih u GraphicTutBen/Debug ili/i GraphicTutBen/Release
 
 https://www.dropbox.com/scl/fi/kk6sskzdago7ylpogl98r/Dll.rar?rlkey=lzamryk4f2kiqvao9uwnxwpae&st=fkgmf5rm&dl=0
