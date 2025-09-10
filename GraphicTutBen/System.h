@@ -84,7 +84,6 @@ private:
 	float m_fps;
 	float m_time;
 
-	//std::vector<Level*> m_levels;
 };
 
-#endif //SYSTEM_H
+#endif

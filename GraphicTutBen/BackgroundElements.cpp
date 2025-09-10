@@ -73,7 +73,6 @@ void BackgroundElements::randomStarTexture()
 		std::random_device rd;
 		std::mt19937 gen(rd());
 
-		//TODO fix
 		std::uniform_int_distribution<>  distr(m_stars[0].id, m_stars[2].id);
 
 		m_starID.push_back(distr(gen));

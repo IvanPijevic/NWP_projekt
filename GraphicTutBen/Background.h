@@ -23,4 +23,4 @@ private:
 	Engine::ColorRGBA8 m_color;
 };
 
-#endif  //BACKGROUND_H
+#endif

@@ -22,7 +22,6 @@ public:
 
 	bool colideWithAgent(Agent& agent);
 
-	//Getters
 	int getLifeTime() { return m_lifeTime; }
 	int getDamage() { return m_damage; }
 	glm::vec2 getPosition() { return m_position; }
@@ -41,4 +40,4 @@ private:
 	Engine::Texture m_texture;
 };
 
-#endif //BULLET_H
+#endif

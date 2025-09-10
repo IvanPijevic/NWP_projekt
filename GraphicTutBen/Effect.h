@@ -46,4 +46,4 @@ private:
 	EFFECT m_effect;
 };
 
-#endif  //EFFECT_H
+#endif

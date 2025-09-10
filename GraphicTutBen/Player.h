@@ -25,13 +25,11 @@ public:
 
 	bool colideWithEnemy(Agent* agent);
 
-	//Getters
 	glm::vec2 getPlayerPosition() { return this->m_position; }
 	std::vector<Effect*> getEffectVec() { return m_effects; }
 	int getPlayerLives() { return this->m_lives; }
 	glm::vec2 getPlayerStartPosition() { return this->m_playerStartPosition; }
 
-	//Setters
 	void setPlayerLives(int lives) { m_lives = lives; }
 	void setPlayerPosition(glm::vec2 position) { m_position = position; }
 
@@ -50,4 +48,4 @@ private:
 	Engine::ColorRGBA8 m_color;
 };
 
-#endif // !PLAYER_H
+#endif

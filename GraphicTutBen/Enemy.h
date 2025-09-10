@@ -40,12 +40,11 @@ public:
 	void addEnemyToVector(std::vector<Enemy*>& enemy, std::vector<LevelData>& waveData, int currentWave, glm::vec2& position, int screenWidth, int screenHeight);
 	void isEnemyOnScreen(int screenWidth, int screenHeight, std::vector<Enemy*>& enemy);
 
-	//Getter
 	const bool getIsWaveDead()& { return m_isWaveDead; }
 	int getHealthPoints()& { return m_healthPoints; }
 	int getShipsDestroyed()& { return m_shipsDestroyed; }
 
-	//Setter
+	
 	void setIsWaveDead(bool isDead) { m_isWaveDead = isDead; }
 	void setHealthPoints(int HP) { m_healthPoints = HP; }
 	void setShipsDestroyed(int shipsDestroyed) { m_shipsDestroyed = shipsDestroyed; }
@@ -61,4 +60,4 @@ private:
 	Level* m_level;
 };
 
-#endif // !ENEMY_H
+#endif

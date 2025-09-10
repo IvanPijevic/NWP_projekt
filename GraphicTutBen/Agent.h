@@ -10,14 +10,12 @@ public:
 	Agent();
 	virtual ~Agent();
 
-	//Getters
 	glm::vec2 getPosition() const { return m_position; }
 	glm::vec2 getDimension() const { return glm::vec2(m_texture.width, m_texture.height); }
 	int getWidth() const { return m_texture.width; }
 	int getHeigh() const { return m_texture.height; }
 	int getHP() { return m_healthPoints; }
 
-	//Setters
 	void setHealthPoints(int healthPoints) { m_healthPoints = healthPoints; }
 
 protected:
@@ -31,4 +29,4 @@ protected:
 	int m_shieldPoints;
 };
 
-#endif  //AGENT_H
+#endif

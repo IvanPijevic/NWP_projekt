@@ -29,4 +29,4 @@ private:
 	std::string m_enemyType;
 };
 
-#endif  //LEVEL_H
+#endif

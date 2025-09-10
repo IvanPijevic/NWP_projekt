@@ -37,4 +37,4 @@ private:
 
 };
 
-#endif //BACKGROUND_ELEMENTS_H
+#endif 

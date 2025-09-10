@@ -56,4 +56,4 @@ private:
 	std::vector<Engine::Texture> m_numbers;
 };
 
-#endif // !USERINTERFACE_H
+#endif

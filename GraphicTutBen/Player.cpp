@@ -87,7 +87,7 @@ void Player::update(Engine::InputManager& input, int screenWidth, int screenHeig
 		pos[0].y += m_texture.height;
 		m_weapons[m_weaponNumber]->update(m_input->isKeyDown(SDLK_SPACE), m_weapons[m_weaponNumber]->getBulletsPerShoot(), pos, glm::vec2(0.0f, 1.0f), *m_bullets, deltaTime);
 		
-		//Add fire effects   //TODO Effect Position
+		//Add fire effects
 		if (m_weapons[m_weaponNumber]->getIsFired())
 		{
 			pos[0].x -= 9;  //Center effect position

@@ -31,7 +31,7 @@ void System::Run()
 void System::InitSystem()
 {
 	Engine::init();
-	m_window.create("Game Engine", m_screenWidth, m_screenHeight, m_screenSize);  //0 - window, 2 - full screen
+	m_window.create("Game Engine", m_screenWidth, m_screenHeight, m_screenSize);
 
 	InitShaders();
 
