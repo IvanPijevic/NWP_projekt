@@ -1,9 +1,9 @@
 Game:
 Kontrole: W - gore, S - dole, A - lijevo, D - desno, RAZMAK - pucanje, Q - 1. laser, E - 2. laser
 
-Projekt "Engine" je preuzet (nije moj)
+Projekt "Engine" je preuzet (nije moj).
 
-Projekt "GraphicTutBen" je igra koju sam napravi i koja se pokreće preko "Engine" projekta
+Projekt "GraphicTutBen" je igra koju sam napravio i koja se pokreće preko "Engine" projekta.
 
 32-bitna konfiguracija obavezna: Projekt se mora graditi i pokretati u 32-bitnoj konfiguraciji jer engine i neke dodatne biblioteke nemaju podršku za 64-bitne arhitekture.
 
