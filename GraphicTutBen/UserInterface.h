@@ -10,7 +10,7 @@
 
 enum class buttonType
 {
-	PLAY, OPTIONS, EXIT
+	PLAY, EXIT
 };
 
 class UserInterface
@@ -23,13 +23,11 @@ public:
 	void initNumbers();
 
 	void drawPlayButton(Engine::SpriteBatch& spriteBatch, glm::vec2 mouseCoord);
-	void drawOptionsButton(Engine::SpriteBatch& spriteBatch, glm::vec2 mouseCoord);
 	void drawQuitButton(Engine::SpriteBatch& spriteBatch, glm::vec2 mouseCoord);
 
 	void animateButton();
 
 	bool clickedOnPlayButton(glm::vec2 mouseCoord);
-	bool clickedOnOptionsButton(glm::vec2 mouseCoord);
 	bool clickedOnQuitButton(glm::vec2 mouseCoord);
 
 private:
@@ -45,13 +43,11 @@ private:
 	int m_buttonTextureHeight;
 
 	glm::vec2 m_playButtonPosition;
-	glm::vec2 m_optionsButtonPosition;
 	glm::vec2 m_quitButtonPosition;
 
 	glm::vec4 m_uv;
 
 	std::vector<Engine::Texture> m_playButton;
-	std::vector<Engine::Texture> m_optionsButton;
 	std::vector<Engine::Texture> m_quitButton;
 	std::vector<Engine::Texture> m_numbers;
 };

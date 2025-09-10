@@ -28,7 +28,7 @@
 #include "UserInterface.h"
 #include "BackgroundElements.h"
 
-enum class GameState {MAIN_MENU, OPTIONS, PLAY, EXIT};
+enum class GameState {MAIN_MENU, PLAY, EXIT};
 
 class System
 {

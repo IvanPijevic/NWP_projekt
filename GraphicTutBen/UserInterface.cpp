@@ -30,20 +30,6 @@ void UserInterface::initMainMenu(int screenWidth, int screenHeight)
 	{
 		if (i < 10)
 		{
-			m_texture = Engine::ResourceManager::getTexture("Textures/PNG/UI/button/Options/option button 300x80 hover00000" + std::to_string(i) + ".png");
-			m_optionsButton.push_back(m_texture);
-		}
-		else
-		{
-			m_texture = Engine::ResourceManager::getTexture("Textures/PNG/UI/button/Options/option button 300x80 hover0000" + std::to_string(i) + ".png");
-			m_optionsButton.push_back(m_texture);
-		}
-	}
-
-	for (int i = 1; i < 31; i++)
-	{
-		if (i < 10)
-		{
 			m_texture = Engine::ResourceManager::getTexture("Textures/PNG/UI/button/Quit/Quit button 300x80 hover00000" + std::to_string(i) + ".png");
 			m_quitButton.push_back(m_texture);
 		}
@@ -59,9 +45,6 @@ void UserInterface::initMainMenu(int screenWidth, int screenHeight)
 
 	m_playButtonPosition.x = -(m_buttonTextureWidth / 2);
 	m_playButtonPosition.y = m_buttonTextureHeight;
-
-	m_optionsButtonPosition.x = -(m_buttonTextureWidth / 2);
-	m_optionsButtonPosition.y = -(m_buttonTextureHeight / 2);
 
 	m_quitButtonPosition.x = -(m_buttonTextureWidth / 2);
 	m_quitButtonPosition.y = - 2 * m_buttonTextureHeight;
@@ -102,31 +85,6 @@ void UserInterface::drawPlayButton(Engine::SpriteBatch& spriteBatch, glm::vec2 m
 	{
 		//Draw static button
 		spriteBatch.draw(posAndSize, m_uv, m_playButton[0].id, 0.0f, m_color);
-	}
-}
-
-void UserInterface::drawOptionsButton(Engine::SpriteBatch& spriteBatch, glm::vec2 mouseCoord)
-{
-	glm::vec4 posAndSize = glm::vec4(m_optionsButtonPosition.x, m_optionsButtonPosition.y, m_buttonTextureWidth, m_buttonTextureHeight);
-
-	if (mouseCoord.x > m_optionsButtonPosition.x && mouseCoord.x < m_optionsButtonPosition.x + m_optionsButton[0].width
-		&& mouseCoord.y > m_optionsButtonPosition.y && mouseCoord.y < m_optionsButtonPosition.y + m_optionsButton[0].height)
-	{
-		spriteBatch.draw(posAndSize, m_uv, m_optionsButton[m_vectorCounter].id, 0.0f, m_color);
-
-		//Animate button
-		animateButton();
-
-		//Reset vector counter when reach end of vector
-		if (m_vectorCounter == m_optionsButton.size())
-		{
-			m_vectorCounter = 0;
-		}
-	}
-	else
-	{
-		//Draw static button
-		spriteBatch.draw(posAndSize, m_uv, m_optionsButton[0].id, 0.0f, m_color);
 	}
 }
 
@@ -171,19 +129,6 @@ bool UserInterface::clickedOnPlayButton(glm::vec2 mouseCoord)
 {
 	if (mouseCoord.x > m_playButtonPosition.x && mouseCoord.x < m_playButtonPosition.x + m_playButton[0].width
 		&& mouseCoord.y > m_playButtonPosition.y && mouseCoord.y < m_playButtonPosition.y + m_playButton[0].height)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-bool UserInterface::clickedOnOptionsButton(glm::vec2 mouseCoord)
-{
-	if (mouseCoord.x > m_optionsButtonPosition.x && mouseCoord.x < m_optionsButtonPosition.x + m_playButton[0].width
-		&& mouseCoord.y > m_optionsButtonPosition.y && mouseCoord.y < m_optionsButtonPosition.y + m_playButton[0].height)
 	{
 		return true;
 	}

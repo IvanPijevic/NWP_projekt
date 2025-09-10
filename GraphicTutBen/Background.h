@@ -11,10 +11,7 @@
 class Background
 {
 public:
-	Background();
-	~Background();
-
-	void init(Engine::SpriteBatch& spriteBatch, int screenWidth, int screenHeight);
+	void init(Engine::SpriteBatch& spriteBatch);
 	void draw(Engine::SpriteBatch& spriteBatch, float positionX, float positionY);
 	void coverBackground(int screenWidth, int screenHeight, Engine::SpriteBatch& spriteBatch);
 

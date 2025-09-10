@@ -11,6 +11,7 @@
 #include "Weapon.h"
 #include "Bullet.h"
 #include "Effect.h"
+#include "BackgroundElements.h"
 
 class Player : public Agent
 {
@@ -24,6 +25,7 @@ public:
 	void draw(Engine::SpriteBatch& spriteBatch);
 
 	bool colideWithEnemy(Agent* agent);
+	bool colideWithStar(BackgroundElements* star, int index);
 
 	glm::vec2 getPlayerPosition() { return this->m_position; }
 	std::vector<Effect*> getEffectVec() { return m_effects; }

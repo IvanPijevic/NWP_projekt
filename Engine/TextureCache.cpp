@@ -27,11 +27,9 @@ namespace Engine
 			//Insert it in the map
 			m_textureMap.insert(make_pair(texturePath, newTexture));
 
-			std::cout << "Loaded texture!\n";
 			return newTexture;
 		}
 
-		/*std::cout << "Used Cached texture!\n";*/
 		return mit->second;
 	}
 

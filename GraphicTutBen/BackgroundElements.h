@@ -21,6 +21,8 @@ public:
 	void randomStarTexture();
 	void drawStars(Engine::SpriteBatch& spriteBatch);
 
+	const std::vector<glm::vec2>& getStarPosition() const {return m_starPosition;}
+
 private:
 	std::vector<Engine::Texture> m_stars;
 	std::vector<glm::vec2> m_starPosition;

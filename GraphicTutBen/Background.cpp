@@ -1,12 +1,6 @@
 #include "Background.h"
 
-Background::Background()
-{}
-
-Background::~Background()
-{}
-
-void Background::init(Engine::SpriteBatch& spriteBatch, int screenWidth, int screenHeight)
+void Background::init(Engine::SpriteBatch& spriteBatch)
 {
 	//Init Background
 	m_backgroundTexture = Engine::ResourceManager::getTexture("Textures/Backgrounds/black.png");

@@ -20,26 +20,26 @@ void Enemy::initEnemy(glm::vec2 position, std::vector<LevelData>& data, int curr
 	{
 	case ENEMY_TYPE::DRONE:
 		m_texture = Engine::ResourceManager::getTexture("Textures/PNG/Enemies/enemyBlack1.png");
-		m_healthPoints = 10;
+		m_healthPoints = 20;
 		m_shieldPoints = 0;
 		break;
 
 	case ENEMY_TYPE::GUN_SHIP:
 		m_texture = Engine::ResourceManager::getTexture("Textures/PNG/Enemies/enemyBlack2.png");
-		m_healthPoints = 20;
+		m_healthPoints = 30;
 		m_shieldPoints = 0;
 		break;
 
 	case ENEMY_TYPE::BATTLE_SHIP:
 		m_texture = Engine::ResourceManager::getTexture("Textures/PNG/Enemies/enemyBlack3.png");
-		m_healthPoints = 30;
-		m_shieldPoints = 10;
+		m_healthPoints = 40;
+		m_shieldPoints = 0;
 		break;
 
 	case ENEMY_TYPE::DESTROYER:
 		m_texture = Engine::ResourceManager::getTexture("Textures/PNG/Enemies/enemyBlack4.png");
-		m_healthPoints = 30;
-		m_shieldPoints = 30;
+		m_healthPoints = 50;
+		m_shieldPoints = 0;
 		break;
 		
 	default:
@@ -63,11 +63,11 @@ void Enemy::update(int screenWidth, int screenHeight, std::vector<LevelData>& da
 	{
 	case TRAJECTORY::COS:
 		m_position.x = cos(m_position.y * 0.02) * (screenWidth / 3);
-		m_position.y-- * deltaTime;
+		m_position.y--;
 		break;
 
 	case TRAJECTORY::VERTICAL:
-		m_position.y-- * deltaTime;
+		m_position.y--;
 		break;
 
 	default:

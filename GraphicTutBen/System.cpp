@@ -52,7 +52,7 @@ void System::InitSystem()
 
 	//Init background
 	m_background = new Background();
-	m_background->init(m_spriteBatch, m_screenWidth, m_screenHeight);
+	m_background->init(m_spriteBatch);
 
 	//Init background elements
 	m_backgroundElements = new BackgroundElements();
@@ -130,14 +130,8 @@ void System::GameLoop()
 			frameCounter++;
 			if (frameCounter == 10)
 			{
-				std::cout << m_fps << std::endl;
 				frameCounter = 0;
 			}
-		}
-
-		if (m_gameState == GameState::OPTIONS)
-		{
-
 		}
 
 		DrawGame();
@@ -162,7 +156,6 @@ void System::Input()
 			break;
 
 		case SDL_MOUSEMOTION:
-			std::cout << evnt.motion.x << " " << evnt.motion.y << std::endl;
 			m_inputManager.setMouseCoords(evnt.motion.x, evnt.motion.y);
 			break;
 
@@ -189,16 +182,10 @@ void System::Input()
 		glm::vec2 mouseCoords = m_inputManager.getMouseCoords();
 		mouseCoords = m_camera.convertScreenToWorld(mouseCoords);
 		mouseCoords.y *= (-1);
-		std::cout << mouseCoords.x << " and " << mouseCoords.y << std::endl;
 		
 		if (m_userInterface->clickedOnPlayButton(mouseCoords))
 		{
 			m_gameState = GameState::PLAY;
-		}
-
-		if (m_userInterface->clickedOnOptionsButton(mouseCoords))
-		{
-			m_gameState = GameState::OPTIONS;
 		}
 
 		if (m_userInterface->clickedOnQuitButton(mouseCoords))
@@ -254,12 +241,7 @@ void System::DrawGame()
 
 		//Draw buttons
 		m_userInterface->drawPlayButton(m_spriteBatch, mouseCoords);
-		m_userInterface->drawOptionsButton(m_spriteBatch, mouseCoords);
 		m_userInterface->drawQuitButton(m_spriteBatch, mouseCoords);
-
-		break;
-
-	case GameState::OPTIONS:
 
 		break;
 
@@ -302,6 +284,7 @@ void System::DrawGame()
 		}
 
 		break;
+
 	}
 
 	m_spriteBatch.end();
@@ -377,7 +360,6 @@ void System::updateAgents(float deltaTime)
 		m_currentWave++;
 		if (m_currentWave >= m_levelData.size())
 		{
-			Engine::fatalError("Game over!");
 			m_gameState = GameState::EXIT;
 		}
 		m_enemy.setIsWaveDead(true);
@@ -388,8 +370,20 @@ void System::updateAgents(float deltaTime)
 	{
 		if (m_player->colideWithEnemy(m_enemyVec[i]))
 		{
-			//Reduce number of lives
-			m_player->setPlayerLives(m_player->getPlayerLives() - 1);
+			m_player->setHealthPoints(m_player->getHP() - m_enemyVec[i]->getHealthPoints() * 2);
+			m_enemyVec[i] = std::move(m_enemyVec.back());
+			m_enemyVec.pop_back();
+			--i;
+
+			if (m_player->getHP() < 0)
+			{
+				//Reduce number of lives
+				m_player->setPlayerLives(m_player->getPlayerLives() - 1);
+
+				//Restart player position after HP reach zero
+				m_player->setPlayerPosition(m_player->getPlayerStartPosition());
+				m_player->setHealthPoints(100);
+			}
 
 			//Check is lives > 0
 			if (m_player->getPlayerLives() <= 0)
@@ -397,8 +391,6 @@ void System::updateAgents(float deltaTime)
 				m_gameState = GameState::EXIT;
 			}
 
-			//Restart player position after HP reach zero
-			m_player->setPlayerPosition(m_player->getPlayerStartPosition());
 		}
 	}
 

@@ -34,7 +34,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -154,7 +154,6 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Save.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="Weapon.cpp" />
@@ -168,7 +167,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Save.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="UserInterface.h" />
     <ClInclude Include="Weapon.h" />
