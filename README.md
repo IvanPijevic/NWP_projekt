@@ -50,7 +50,7 @@ Format vala
 ***************************************************************************************
 Prvi red: NumberOfEnemyShips: <broj> - Broj neprijateljskih brodova u valu (cijeli broj, npr. 4).  
 Drugi red: TypeOfEnemyShips: <tip> - Tip broda (npr. DRONE, GUN_SHIP, BATTLE_SHIP, DESTROYER).  
-Treći red: EnemyTrajectory: <putanja> - Putanja kretanja (npr. VERTICAL, COS).  
+Treći red: EnemyTrajectory: <putanja> - Putanja kretanja (npr. VERTICAL, WAVE_LIKE).  
 ***************************************************************************************
 Svaka tri reda čine jedan val. Valovi se nižu jedan za drugim u datoteci.  
 Na kraj datoteke dodajte tri nova reda za svaki novi val.  
@@ -58,7 +58,7 @@ Primjer dodavanja vala:
 ***************************************************************************************
 NumberOfEnemyShips: 5  
 TypeOfEnemyShips: DRONE  
-EnemyTrajectory: COS  
+EnemyTrajectory: WAVE_LIKE  
 ***************************************************************************************
 Uređivanje postojećeg vala:  
 Pronađite tri reda koji odgovaraju valu koji želite promijeniti.  
@@ -66,7 +66,16 @@ Zamijenite vrijednosti:
 ***************************************************************************************
 NumberOfEnemyShips: Promijenite broj (npr. 4 u 6).  
 TypeOfEnemyShips: Promijenite tip (npr. DRONE u BATTLE_SHIP).  
-EnemyTrajectory: Promijenite putanju (npr. VERTICAL u COS).
+EnemyTrajectory: Promijenite putanju (npr. VERTICAL u WAVE_LIKE).
 ***************************************************************************************
-
-Opcija "Options" u glavnom izborniku igre nije implementirana.
+Igra sadrži četiri različite vrste brodova, a jedina razlika između njih je količina hp-a. U nastavku je popis brodova i njihovih vrijednosti HP-a:  
+Dron: 20 HP  
+Gun ship: 30 HP  
+Battle ship: 40 HP  
+Destroyer: 50 HP  
+***************************************************************************************
+Igra uključuje dvije različite putanje kretanja brodova, koje definiraju njihov obrazac kretanja na ekranu. U nastavku su opisane putanje:  
+Vertikalna putanja - VERTICAL:  
+Brodovi se kreću ravno od vrha ekrana prema dolje. Ova putanja je linearna i predvidljiva, omogućavajući jednostavno praćenje kretanja broda.  
+Valovita (sinusoidna) putanja - WAVE_LIKE:  
+Brodovi se kreću od vrha ekrana prema dolje slijedeći sinusoidni obrazac, što rezultira valovitim kretanjem.
