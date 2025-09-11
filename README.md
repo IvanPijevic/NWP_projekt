@@ -79,3 +79,8 @@ Vertikalna putanja - VERTICAL:
 Brodovi se kreću ravno od vrha ekrana prema dolje. Ova putanja je linearna i predvidljiva, omogućavajući jednostavno praćenje kretanja broda.  
 Valovita (sinusoidna) putanja - WAVE_LIKE:  
 Brodovi se kreću od vrha ekrana prema dolje slijedeći sinusoidni obrazac, što rezultira valovitim kretanjem.
+***************************************************************************************
+Igra se prekida u sljedećim situacijama:  
+Uništenje zadnjeg neprijatelja u zadnjem valu  
+Zadnji val izađe van ekrana  
+Igrač izgubi treći život
