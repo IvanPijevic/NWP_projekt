@@ -22,7 +22,6 @@ class Effect
 {
 public:
 	Effect(glm::vec2 position, EFFECT effectType);
-	~Effect();
 
 	void draw(Engine::SpriteBatch& spriteBatch);
 	void updateFireEffect(float deltaTime);

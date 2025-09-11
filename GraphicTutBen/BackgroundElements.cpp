@@ -1,14 +1,5 @@
 #include "BackgroundElements.h"
 
-BackgroundElements::BackgroundElements() :
-	m_numberOfStars(5),
-	m_starSpeed(2.0f),
-	m_screenBorderStarOffset(30)
-{}
-
-BackgroundElements::~BackgroundElements()
-{}
-
 void BackgroundElements::init()
 {
 	Engine::Texture m_texture;

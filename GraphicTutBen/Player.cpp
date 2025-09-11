@@ -1,14 +1,6 @@
 #include "Player.h"
 
-Player::Player() :
-	m_weaponNumber(-1),
-	m_playerStartPosition(0.0f, -300.0f)
-{}
-
-Player::~Player()
-{}
-
-void Player::addWeapon(Weapon* weapon)
+void Player::addWeapon(Weapon weapon)
 {
 	m_weapons.push_back(weapon);
 
@@ -85,19 +77,19 @@ void Player::update(Engine::InputManager& input, int screenWidth, int screenHeig
 		pos[0] = m_position;
 		pos[0].x += m_texture.width / 2 - 4;  //Center fire position
 		pos[0].y += m_texture.height;
-		m_weapons[m_weaponNumber]->update(m_input->isKeyDown(SDLK_SPACE), m_weapons[m_weaponNumber]->getBulletsPerShoot(), pos, glm::vec2(0.0f, 1.0f), *m_bullets, deltaTime);
+		m_weapons[m_weaponNumber].update(m_input->isKeyDown(SDLK_SPACE), m_weapons[m_weaponNumber].getBulletsPerShoot(), pos, glm::vec2(0.0f, 1.0f), *m_bullets, deltaTime);
 		
 		//Add fire effects
-		if (m_weapons[m_weaponNumber]->getIsFired())
+		if (m_weapons[m_weaponNumber].getIsFired())
 		{
 			pos[0].x -= 9;  //Center effect position
 
-			for (int i = 0; i < m_weapons[m_weaponNumber]->getBulletsPerShoot(); i++)
+			for (int i = 0; i < m_weapons[m_weaponNumber].getBulletsPerShoot(); i++)
 			{
-				m_effects.push_back(new Effect(pos[0], EFFECT::PLAYER_FIRE));
+				m_effects.push_back(Effect(pos[0], EFFECT::PLAYER_FIRE));
 			}
 
-			m_weapons[m_weaponNumber]->setIsFired(false);
+			m_weapons[m_weaponNumber].setIsFired(false);
 		}
 	}
 
@@ -116,17 +108,16 @@ void Player::update(Engine::InputManager& input, int screenWidth, int screenHeig
 		position[1].x += m_texture.width;  //Offset pos - bullet_texture
 		position[1].y += m_texture.height;
 
-		m_weapons[m_weaponNumber]->update(m_input->isKeyDown(SDLK_SPACE), m_weapons[m_weaponNumber]->getBulletsPerShoot(), position, glm::vec2(0.0f, 1.0f), *m_bullets, deltaTime);
+		m_weapons[m_weaponNumber].update(m_input->isKeyDown(SDLK_SPACE), m_weapons[m_weaponNumber].getBulletsPerShoot(), position, glm::vec2(0.0f, 1.0f), *m_bullets, deltaTime);
 	}
 
 	//Update fire effects
 	for (int i = 0; i < m_effects.size(); i++)
 	{
-		m_effects[i]->updateFireEffect(deltaTime);
+		m_effects[i].updateFireEffect(deltaTime);
 
-		if (m_effects[i]->getColorA() < m_effects[i]->getFadeSpeed())
+		if (m_effects[i].getColorA() < m_effects[i].getFadeSpeed())
 		{
-			delete m_effects[i];
 			m_effects[i] = m_effects.back();
 			m_effects.pop_back();
 		}

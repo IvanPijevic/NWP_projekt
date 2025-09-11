@@ -1,43 +1,21 @@
 #include "UserInterface.h"
 
-UserInterface::UserInterface() :
-	m_drawSpeed(3),
-	m_drawCounter(0),
-	m_vectorCounter(0),
-	m_numberOfButtons(3)
-{}
-
-UserInterface::~UserInterface()
-{}
-
 void UserInterface::initMainMenu(int screenWidth, int screenHeight)
 {
 	for (int i = 1; i < 31; i++)
 	{
-		if (i < 10)
-		{
-			m_texture = Engine::ResourceManager::getTexture("Textures/PNG/UI/button/Play/Play button 300x80 hover00000" + std::to_string(i) + ".png");
-			m_playButton.push_back(m_texture);
-		}
-		else
-		{
-			m_texture = Engine::ResourceManager::getTexture("Textures/PNG/UI/button/Play/Play button 300x80 hover0000" + std::to_string(i) + ".png");
-			m_playButton.push_back(m_texture);
-		}
+		std::ostringstream oss;
+		oss << "Textures/PNG/UI/button/Play/Play button 300x80 hover" << std::setw(6) << std::setfill('0') << i << ".png";
+		m_texture = Engine::ResourceManager::getTexture(oss.str());
+		m_playButton.push_back(m_texture);
 	}
 
 	for (int i = 1; i < 31; i++)
 	{
-		if (i < 10)
-		{
-			m_texture = Engine::ResourceManager::getTexture("Textures/PNG/UI/button/Quit/Quit button 300x80 hover00000" + std::to_string(i) + ".png");
-			m_quitButton.push_back(m_texture);
-		}
-		else
-		{
-			m_texture = Engine::ResourceManager::getTexture("Textures/PNG/UI/button/Quit/Quit button 300x80 hover0000" + std::to_string(i) + ".png");
-			m_quitButton.push_back(m_texture);
-		}
+		std::ostringstream oss;
+		oss << "Textures/PNG/UI/button/Quit/Quit button 300x80 hover" << std::setw(6) << std::setfill('0') << i << ".png";
+		m_texture = Engine::ResourceManager::getTexture(oss.str());
+		m_quitButton.push_back(m_texture);
 	}
 
 	m_buttonTextureWidth = m_texture.width;
@@ -127,26 +105,12 @@ void UserInterface::animateButton()
 
 bool UserInterface::clickedOnPlayButton(glm::vec2 mouseCoord)
 {
-	if (mouseCoord.x > m_playButtonPosition.x && mouseCoord.x < m_playButtonPosition.x + m_playButton[0].width
-		&& mouseCoord.y > m_playButtonPosition.y && mouseCoord.y < m_playButtonPosition.y + m_playButton[0].height)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return mouseCoord.x > m_playButtonPosition.x && mouseCoord.x < m_playButtonPosition.x + m_playButton[0].width
+		&& mouseCoord.y > m_playButtonPosition.y && mouseCoord.y < m_playButtonPosition.y + m_playButton[0].height;
 }
 
 bool UserInterface::clickedOnQuitButton(glm::vec2 mouseCoord)
 {
-	if (mouseCoord.x > m_quitButtonPosition.x && mouseCoord.x < m_quitButtonPosition.x + m_playButton[0].width
-		&& mouseCoord.y > m_quitButtonPosition.y && mouseCoord.y < m_quitButtonPosition.y + m_playButton[0].height)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return mouseCoord.x > m_quitButtonPosition.x && mouseCoord.x < m_quitButtonPosition.x + m_playButton[0].width
+		&& mouseCoord.y > m_quitButtonPosition.y && mouseCoord.y < m_quitButtonPosition.y + m_playButton[0].height;
 }

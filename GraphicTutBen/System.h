@@ -34,7 +34,6 @@ class System
 {
 public:
 	System();
-	~System();
 
 	void Run();
 
@@ -60,11 +59,11 @@ private:
 	Engine::SpriteBatch m_uiSpriteBatch;
 	Engine::SpriteFont* m_spriteFont;
 	
-	Player* m_player;
+	Player m_player;
 	Enemy m_enemy;
-	Background* m_background;
-	UserInterface* m_userInterface;
-	BackgroundElements* m_backgroundElements;
+	Background m_background;
+	UserInterface m_userInterface;
+	BackgroundElements m_backgroundElements;
 
 	std::vector<Bullet> m_bullets;
 	std::vector<Enemy*>  m_enemyVec;

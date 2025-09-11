@@ -1,15 +1,10 @@
 #include "Enemy.h"
 
-Enemy::Enemy() :
-	m_numberOfWaves(0),
-	m_isWaveDead(true)
+Enemy::Enemy()
 {
-	m_level = new Level;
+	m_level = std::make_unique<Level>();
 	m_level->init("Levels/LevelOne.txt");
 }
-
-Enemy::~Enemy()
-{}
 
 void Enemy::initEnemy(glm::vec2 position, std::vector<LevelData>& data, int currentWave)
 {
@@ -61,7 +56,7 @@ void Enemy::update(int screenWidth, int screenHeight, std::vector<LevelData>& da
 {
 	switch (data[currentWave].trajectory)
 	{
-	case TRAJECTORY::COS:
+	case TRAJECTORY::WAVE_LIKE:
 		m_position.x = cos(m_position.y * 0.02) * (screenWidth / 3);
 		m_position.y--;
 		break;
@@ -79,85 +74,60 @@ void Enemy::update(int screenWidth, int screenHeight, std::vector<LevelData>& da
 void Enemy::initEnemyWaves(std::vector<LevelData>& data)
 {
 	std::vector<std::string> levelData = m_level->getLevelData();
-
-	std::string temp;
-	int lineCounter = 0;
 	int vecCounter = 0;
-
 	data.push_back(LevelData());
 
 	for (int i = 0; i < levelData.size(); i++)
 	{
-		bool usefulInfo = false;
-		std::string tempInfo = "";
-
-		temp = levelData[i];
-
 		if (i % 3 == 0 && i > 0)
 		{
-			lineCounter = 0;
 			vecCounter++;
 			data.push_back(LevelData());
 		}
 
-		for (char& c : temp)
-		{
-			if (usefulInfo)
-			{
-				tempInfo += c;
-			}
+		std::stringstream ss(levelData[i]);
+		std::string tempInfo;
+		ss >> tempInfo;
 
-			if (c == ' ')
+		if (!(ss >> tempInfo))
+		{
+			continue;
+		}
+
+		// Get number of ships in wave
+		if (i % 3 == 0)
+		{
+			try
 			{
-				usefulInfo = true;
+				data[vecCounter].numberOfShips = std::stoi(tempInfo);
+			}
+			catch (const std::invalid_argument&)
+			{
+				data[vecCounter].numberOfShips = 0;
 			}
 		}
 
-		//Get number of ships in wave
-		if (lineCounter == 0 && usefulInfo)
-		{
-			data[vecCounter].numberOfShips = std::stoi(tempInfo);
-		}
-
-		//Get type of enemy ships
-		if (lineCounter == 1 && usefulInfo)
+		// Get type of enemy ships
+		else if (i % 3 == 1)
 		{
 			if (tempInfo == "DRONE")
-			{
 				data[vecCounter].enemyType = ENEMY_TYPE::DRONE;
-			}
-
-			if (tempInfo == "GUN_SHIP")
-			{
+			else if (tempInfo == "GUN_SHIP")
 				data[vecCounter].enemyType = ENEMY_TYPE::GUN_SHIP;
-			}
-
-			if (tempInfo == "BATTLE_SHIP")
-			{
+			else if (tempInfo == "BATTLE_SHIP")
 				data[vecCounter].enemyType = ENEMY_TYPE::BATTLE_SHIP;
-			}
-
-			if (tempInfo == "DESTROYER")
-			{
+			else if (tempInfo == "DESTROYER")
 				data[vecCounter].enemyType = ENEMY_TYPE::DESTROYER;
-			}
 		}
 
-		//Get enemy trajectory
-		if (lineCounter == 2 && usefulInfo)
+		// Get enemy trajectory
+		else if (i % 3 == 2)
 		{
-			if (tempInfo == "COS")
-			{
-				data[vecCounter].trajectory = TRAJECTORY::COS;
-			}
-
-			if (tempInfo == "VERTICAL")
-			{
+			if (tempInfo == "WAVE_LIKE")
+				data[vecCounter].trajectory = TRAJECTORY::WAVE_LIKE;
+			else if (tempInfo == "VERTICAL")
 				data[vecCounter].trajectory = TRAJECTORY::VERTICAL;
-			}
 		}
-
-		lineCounter++;
 	}
 }
 
@@ -180,7 +150,7 @@ void Enemy::addEnemyToVector(std::vector<Enemy*>& enemy, std::vector<LevelData>&
 			position.x += shipInterspace;
 		}
 
-		if (waveData[currentWave].trajectory == TRAJECTORY::COS)
+		if (waveData[currentWave].trajectory == TRAJECTORY::WAVE_LIKE)
 		{
 			position.y += enemy[i]->getWidth();
 		}

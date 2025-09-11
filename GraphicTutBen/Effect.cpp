@@ -36,11 +36,6 @@ Effect::Effect(glm::vec2 position, EFFECT effectType) :
 	}
 }
 
-Effect::~Effect()
-{
-
-}
-
 void Effect::draw(Engine::SpriteBatch& spriteBatch)
 {
 	glm::vec4 posAndSize = glm::vec4(m_position.x, m_position.y, m_texture.width * 2, m_texture.height * 2);

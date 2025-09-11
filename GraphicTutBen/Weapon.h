@@ -11,7 +11,6 @@ class Weapon
 {
 public:
 	Weapon(std::string name, int fireRate, int bulletsPerShots, float bulletDamage, float bulletSpeed);
-	~Weapon();
 
 	void update(bool isKeyPressed, int bulletsPerShots, const glm::vec2* position, const glm::vec2& direction, std::vector<Bullet>& bullets, float deltaTime);
 

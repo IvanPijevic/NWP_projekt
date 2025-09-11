@@ -6,7 +6,6 @@ System::System() :
 	m_gameState(GameState::MAIN_MENU),
 	m_time(0.0f),
 	m_maxFPS(60.0f),
-	m_player(nullptr),
 	m_startPos(glm::vec2(0, 500)),
 	m_currentWave(0),
 	m_screenSize(0)
@@ -14,11 +13,6 @@ System::System() :
 	m_camera.init(m_screenWidth, m_screenHeight);
 	m_hudCamera.init(m_screenWidth, m_screenHeight);
 	m_hudCamera.setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
-}
-
-System::~System()
-{
-	delete m_player;
 }
 
 void System::Run()
@@ -44,30 +38,26 @@ void System::InitSystem()
 	m_fpsLimiter.init(m_maxFPS);
 
 	//Init main menu
-	m_userInterface = new UserInterface();
-	m_userInterface->initMainMenu(m_screenWidth, m_screenHeight);
+	m_userInterface.initMainMenu(m_screenWidth, m_screenHeight);
 
 	//Init numbers
-	m_userInterface->initNumbers();
+	m_userInterface.initNumbers();
 
 	//Init background
-	m_background = new Background();
-	m_background->init(m_spriteBatch);
+	m_background.init(m_spriteBatch);
 
 	//Init background elements
-	m_backgroundElements = new BackgroundElements();
-	m_backgroundElements->init();
+	m_backgroundElements.init();
 
 	//Init enemy/level setup
 	m_enemy.initEnemyWaves(m_levelData);
 
 	//Init player
-	m_player = new Player();
-	m_player->init(5.0f, 100, 3, glm::vec2(0.0f, -300.0f), &m_inputManager, &m_bullets);
+	m_player.init(5.0f, 100, 3, glm::vec2(0.0f, -300.0f), &m_inputManager, &m_bullets);
 
 	//Init weapons
-	m_player->addWeapon(new Weapon("Basic gun", 10, 1, 5, 20));
-	m_player->addWeapon(new Weapon("Double laser", 10, 2, 5, 20));
+	m_player.addWeapon(Weapon("Basic gun", 10, 1, 5, 20));
+	m_player.addWeapon(Weapon("Double laser", 10, 2, 5, 20));
 }
 
 void System::InitShaders()
@@ -117,9 +107,9 @@ void System::GameLoop()
 				updateAgents(deltaTime);
 				updateBullets(deltaTime);
 				
-				m_backgroundElements->updateBackground(deltaTime, m_screenHeight);
-				m_backgroundElements->randomStarTexture();
-				m_backgroundElements->pickStarPosition(m_screenWidth, m_screenHeight);
+				m_backgroundElements.updateBackground(deltaTime, m_screenHeight);
+				m_backgroundElements.randomStarTexture();
+				m_backgroundElements.pickStarPosition(m_screenWidth, m_screenHeight);
 
 				totalDeltaTime -= deltaTime;
 				i++;
@@ -183,12 +173,12 @@ void System::Input()
 		mouseCoords = m_camera.convertScreenToWorld(mouseCoords);
 		mouseCoords.y *= (-1);
 		
-		if (m_userInterface->clickedOnPlayButton(mouseCoords))
+		if (m_userInterface.clickedOnPlayButton(mouseCoords))
 		{
 			m_gameState = GameState::PLAY;
 		}
 
-		if (m_userInterface->clickedOnQuitButton(mouseCoords))
+		if (m_userInterface.clickedOnQuitButton(mouseCoords))
 		{
 			m_gameState = GameState::EXIT;
 		}
@@ -240,8 +230,8 @@ void System::DrawGame()
 		mouseCoords.y *= (-1);
 
 		//Draw buttons
-		m_userInterface->drawPlayButton(m_spriteBatch, mouseCoords);
-		m_userInterface->drawQuitButton(m_spriteBatch, mouseCoords);
+		m_userInterface.drawPlayButton(m_spriteBatch, mouseCoords);
+		m_userInterface.drawQuitButton(m_spriteBatch, mouseCoords);
 
 		break;
 
@@ -249,13 +239,13 @@ void System::DrawGame()
 
 		
 		//Draw background
-		m_background->coverBackground(m_screenWidth, m_screenHeight, m_spriteBatch);
+		m_background.coverBackground(m_screenWidth, m_screenHeight, m_spriteBatch);
 		
 		//Draw background elements(stars/comets/planets...)
-		m_backgroundElements->drawStars(m_spriteBatch);
+		m_backgroundElements.drawStars(m_spriteBatch);
 
 		//Draw player
-		m_player->draw(m_spriteBatch);
+		m_player.draw(m_spriteBatch);
 
 		//Draw enemy
 		for (int i = 0; i < m_enemyVec.size(); i++)
@@ -268,19 +258,19 @@ void System::DrawGame()
 		}
 
 		//Draw effects
-		for (int i = 0; i < m_player->getEffectVec().size(); i++)
+		for (int i = 0; i < m_player.getEffectVec().size(); i++)
 		{
 			//Check isi effect on screen
-			if (m_camera.isBoxInView(m_player->getEffectVec()[i]->getPosition(), m_player->getEffectVec()[i]->getDimension()))
+			if (m_camera.isBoxInView(m_player.getEffectVec()[i].getPosition(), m_player.getEffectVec()[i].getDimension()))
 			{
-				m_player->getEffectVec()[i]->draw(m_spriteBatch);
+				m_player.getEffectVec()[i].draw(m_spriteBatch);
 			}
 		}
 
 		//Draw bullets
-		for (int i = 0; i < m_bullets.size(); i++)
+		for (auto& bullet : m_bullets)
 		{
-				m_bullets[i].draw(m_spriteBatch);
+			bullet.draw(m_spriteBatch);
 		}
 
 		break;
@@ -347,7 +337,7 @@ void System::updateBullets(float deltaTime)
 void System::updateAgents(float deltaTime)
 {
 	//Update Player
-	m_player->update(m_inputManager, m_screenWidth, m_screenHeight, deltaTime);
+	m_player.update(m_inputManager, m_screenWidth, m_screenHeight, deltaTime);
 
 	//Add enemy to vector (initialize wave)
 	if (m_enemy.getIsWaveDead())
@@ -368,25 +358,25 @@ void System::updateAgents(float deltaTime)
 	//Update colision Player->Enemy
 	for (int i = 0; i < m_enemyVec.size(); i++)
 	{
-		if (m_player->colideWithEnemy(m_enemyVec[i]))
+		if (m_player.colideWithEnemy(m_enemyVec[i]))
 		{
-			m_player->setHealthPoints(m_player->getHP() - m_enemyVec[i]->getHealthPoints() * 2);
+			m_player.setHealthPoints(m_player.getHP() - m_enemyVec[i]->getHealthPoints() * 2);
 			m_enemyVec[i] = std::move(m_enemyVec.back());
 			m_enemyVec.pop_back();
 			--i;
 
-			if (m_player->getHP() < 0)
+			if (m_player.getHP() < 0)
 			{
 				//Reduce number of lives
-				m_player->setPlayerLives(m_player->getPlayerLives() - 1);
+				m_player.setPlayerLives(m_player.getPlayerLives() - 1);
 
 				//Restart player position after HP reach zero
-				m_player->setPlayerPosition(m_player->getPlayerStartPosition());
-				m_player->setHealthPoints(100);
+				m_player.setPlayerPosition(m_player.getPlayerStartPosition());
+				m_player.setHealthPoints(100);
 			}
 
 			//Check is lives > 0
-			if (m_player->getPlayerLives() <= 0)
+			if (m_player.getPlayerLives() <= 0)
 			{
 				m_gameState = GameState::EXIT;
 			}
@@ -422,7 +412,7 @@ void System::DrawHud()
 		glm::vec2(1.0), 0.0f, Engine::ColorRGBA8(255, 255, 255, 255));
 
 	//PlayerHP
-	sprintf_s(playerHPBuffer, "HP: %d", m_player->getHP());
+	sprintf_s(playerHPBuffer, "HP: %d", m_player.getHP());
 	m_spriteFont->draw(m_uiSpriteBatch, playerHPBuffer, glm::vec2(0, 40.0f),
 		glm::vec2(1.0), 0.0f, Engine::ColorRGBA8(255, 255, 255, 255));
 

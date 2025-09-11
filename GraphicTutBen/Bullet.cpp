@@ -8,9 +8,6 @@ Bullet::Bullet(glm::vec2 position, glm::vec2 direction, float speed, int lifeTim
 	m_damage(damage)
 {}
 
-Bullet::~Bullet()
-{}
-
 void Bullet::draw(Engine::SpriteBatch& spriteBatch)
 {
 	Engine::ColorRGBA8 color;

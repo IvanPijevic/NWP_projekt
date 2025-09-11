@@ -11,9 +11,6 @@ Weapon::Weapon(std::string name, int fireRate, int bulletsPerShots, float bullet
 	m_isFired(false)
 {}
 
-Weapon::~Weapon()
-{}
-
 void Weapon::update(bool isKeyPressed, int bulletsPerShots, const glm::vec2* position, const glm::vec2& direction, std::vector<Bullet>& bullets, float deltaTime)
 {
 	m_frameCounter += 1.0f * deltaTime;

@@ -15,7 +15,6 @@ class Bullet
 {
 public:
 	Bullet(glm::vec2 position, glm::vec2 direction, float speed, int lifeTime, int damage);
-	~Bullet();
 
 	void draw(Engine::SpriteBatch& spriteBatch);
 	void update(int screenHeight, float deltaTime);

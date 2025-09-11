@@ -12,9 +12,6 @@
 class BackgroundElements
 {
 public:
-	BackgroundElements();
-	~BackgroundElements();
-
 	void init();
 	void pickStarPosition(int screenWidth, int screenHeight);
 	void updateBackground(float deltaTime, int screenHeight);
@@ -32,10 +29,10 @@ private:
 
 	Engine::ColorRGBA8 m_color;
 
-	int m_numberOfStars;
-	int m_screenBorderStarOffset;
+	int m_numberOfStars = 5;
+	int m_screenBorderStarOffset = 30;
 
-	float m_starSpeed;
+	float m_starSpeed = 2.0f;
 
 };
 

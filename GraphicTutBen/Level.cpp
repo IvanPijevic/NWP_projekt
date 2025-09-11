@@ -1,11 +1,5 @@
 #include "Level.h"
 
-Level::Level()
-{}
-
-Level::~Level()
-{}
-
 void Level::init(const std::string& fileName)
 {
 	std::ifstream file;

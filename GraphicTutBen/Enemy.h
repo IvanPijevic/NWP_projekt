@@ -5,13 +5,16 @@
 #include <Engine/ResourceManager.h>
 
 #include <vector>
+#include <memory>
+#include <sstream>
+#include <string>
 
 #include "Agent.h"
 #include "Level.h"
 
 enum class TRAJECTORY
 {
-	COS, SPIRAL, VERTICAL, DIAGONAL
+	WAVE_LIKE, SPIRAL, VERTICAL, DIAGONAL
 };
 
 enum class ENEMY_TYPE
@@ -30,7 +33,6 @@ class Enemy : public Agent
 {
 public:
 	Enemy();
-	~Enemy();
 
 	void initEnemy(glm::vec2 position, std::vector<LevelData>& data, int currentWave);
 	void draw(Engine::SpriteBatch& spriteBatch);
@@ -50,14 +52,14 @@ public:
 	void setShipsDestroyed(int shipsDestroyed) { m_shipsDestroyed = shipsDestroyed; }
 
 private:
-	int m_numberOfWaves;
+	int m_numberOfWaves = 0;
 	int m_shipsDestroyed = 0;
 
 	Engine::ColorRGBA8 m_color;
 
-	bool m_isWaveDead;
+	bool m_isWaveDead = true;
 
-	Level* m_level;
+	std::unique_ptr<Level> m_level;
 };
 
 #endif

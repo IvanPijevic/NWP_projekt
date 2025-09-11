@@ -7,6 +7,9 @@
 #include <Engine/Camera2D.h>
 
 #include <string>
+#include <format>
+#include <iomanip>
+#include <sstream>
 
 enum class buttonType
 {
@@ -16,9 +19,6 @@ enum class buttonType
 class UserInterface
 {
 public:
-	UserInterface();
-	~UserInterface();
-
 	void initMainMenu(int screenWidth, int screenHeight);
 	void initNumbers();
 
@@ -35,10 +35,10 @@ private:
 	Engine::Camera2D m_camera;
 	Engine::ColorRGBA8 m_color;
 
-	int m_drawSpeed;
-	int m_drawCounter;
-	int m_vectorCounter;
-	int m_numberOfButtons;
+	int m_drawSpeed = 3;
+	int m_drawCounter = 0;
+	int m_vectorCounter = 0;
+	int m_numberOfButtons = 2;
 	int m_buttonTextureWidth;
 	int m_buttonTextureHeight;
 
