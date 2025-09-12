@@ -28,10 +28,10 @@ public:
 	void updateDestroyedEffect();
 
 	//Getters
-	GLubyte getColorA() { return this->m_color.a; }
-	int getFadeSpeed() { return this->m_fireFadeSpeed; }
-	glm::vec2 getDimension() { return glm::vec2(m_texture.width, m_texture.height); }
-	glm::vec2 getPosition() { return this->m_position; }
+	GLubyte getColorA() const { return this->m_color.a; }
+	int getFadeSpeed() const { return this->m_fireFadeSpeed; }
+	glm::vec2 getDimension() const { return glm::vec2(m_texture.width, m_texture.height); }
+	glm::vec2 getPosition() const { return this->m_position; }
 
 private:
 	Engine::Texture m_texture;

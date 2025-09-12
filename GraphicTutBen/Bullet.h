@@ -8,9 +8,6 @@
 #include "Agent.h"
 #include "Enemy.h"
 
-class Agent;
-class Enemy;
-
 class Bullet
 {
 public:
@@ -21,12 +18,12 @@ public:
 
 	bool colideWithAgent(Agent& agent);
 
-	int getLifeTime() { return m_lifeTime; }
-	int getDamage() { return m_damage; }
-	glm::vec2 getPosition() { return m_position; }
-	glm::vec2 getDimension() { return glm::vec2(m_texture.width, m_texture.height); }
-	float getWidth() { return m_texture.width; }
-	float getHeight() { return m_texture.height; }
+	int getLifeTime() const { return m_lifeTime; }
+	int getDamage() const { return m_damage; }
+	glm::vec2 getPosition() const { return m_position; }
+	glm::vec2 getDimension() const { return glm::vec2(m_texture.width, m_texture.height); }
+	float getWidth() const { return m_texture.width; }
+	float getHeight() const { return m_texture.height; }
 
 private:
 	glm::vec2 m_position;

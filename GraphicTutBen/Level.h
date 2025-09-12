@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <string>
 
 #include <Engine/Error.h>
 
@@ -13,7 +14,6 @@ public:
 	void init(const std::string& fileName);
 
 	int getNumberOfWaves() const { return m_numberOfWaves; }
-	int getNumberOfBosses() const { return m_numberOfBosses; }
 
 	const std::vector<std::string>& getLevelData() const { return m_levelData; }
 

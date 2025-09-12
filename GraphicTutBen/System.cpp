@@ -247,23 +247,20 @@ void System::DrawGame()
 		//Draw player
 		m_player.draw(m_spriteBatch);
 
-		//Draw enemy
-		for (int i = 0; i < m_enemyVec.size(); i++)
+		// Draw enemy
+		for (const std::unique_ptr<Enemy>& enemy : m_enemyVec)
 		{
-			//Check is enemy on screen
-			if (m_camera.isBoxInView(m_enemyVec[i]->getPosition(), m_enemyVec[i]->getDimension()))
+			if (m_camera.isBoxInView(enemy->getPosition(), enemy->getDimension()))
 			{
-				m_enemyVec[i]->draw(m_spriteBatch);
+				enemy->draw(m_spriteBatch);
 			}
 		}
 
-		//Draw effects
-		for (int i = 0; i < m_player.getEffectVec().size(); i++)
+		// Draw effects
+		for (Effect& effect : m_player.getEffectVec())
 		{
-			//Check isi effect on screen
-			if (m_camera.isBoxInView(m_player.getEffectVec()[i].getPosition(), m_player.getEffectVec()[i].getDimension()))
-			{
-				m_player.getEffectVec()[i].draw(m_spriteBatch);
+			if (m_camera.isBoxInView(effect.getPosition(), effect.getDimension())) {
+				effect.draw(m_spriteBatch);
 			}
 		}
 
@@ -296,6 +293,8 @@ void System::DrawGame()
 
 void System::updateBullets(float deltaTime)
 {
+	if (m_gameState != GameState::PLAY) return;
+
 	// Update colision Bullets -> Enemy
 	for (int i = m_enemyVec.size() - 1; i >= 0; --i)
 	{
@@ -322,20 +321,22 @@ void System::updateBullets(float deltaTime)
 			}
 		}
 	}
-	// Update bullets (movement, lifeTime)
-	for (int i = m_bullets.size() - 1; i >= 0; --i)
+	
+	// Update bullets lifetime
+	for (Bullet& bullet : m_bullets) 
 	{
-		m_bullets[i].update(m_screenHeight, deltaTime);
-		if (m_bullets[i].getLifeTime() <= 0)
-		{
-			m_bullets[i] = std::move(m_bullets.back());
-			m_bullets.pop_back();
-		}
+		bullet.update(m_screenHeight, deltaTime);
 	}
+	m_bullets.erase(std::remove_if(m_bullets.begin(), m_bullets.end(),[](const Bullet& bullet) 
+		{
+			return bullet.getLifeTime() <= 0;
+		}), m_bullets.end());
 }
 
 void System::updateAgents(float deltaTime)
 {
+	if (m_gameState != GameState::PLAY) return;
+
 	//Update Player
 	m_player.update(m_inputManager, m_screenWidth, m_screenHeight, deltaTime);
 
@@ -345,7 +346,7 @@ void System::updateAgents(float deltaTime)
 		m_enemy.addEnemyToVector(m_enemyVec, m_levelData, m_currentWave, m_startPos, m_screenWidth, m_screenHeight);
 	}
 
-	if (m_enemyVec.size() == 0)
+	if (m_enemyVec.empty())
 	{
 		m_currentWave++;
 		if (m_currentWave >= m_levelData.size())
@@ -358,7 +359,7 @@ void System::updateAgents(float deltaTime)
 	//Update colision Player->Enemy
 	for (int i = 0; i < m_enemyVec.size(); i++)
 	{
-		if (m_player.colideWithEnemy(m_enemyVec[i]))
+		if (m_player.colideWithEnemy(m_enemyVec[i].get()))
 		{
 			m_player.setHealthPoints(m_player.getHP() - m_enemyVec[i]->getHealthPoints() * 2);
 			m_enemyVec[i] = std::move(m_enemyVec.back());

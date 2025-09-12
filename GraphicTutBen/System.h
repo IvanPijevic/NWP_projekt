@@ -66,7 +66,7 @@ private:
 	BackgroundElements m_backgroundElements;
 
 	std::vector<Bullet> m_bullets;
-	std::vector<Enemy*>  m_enemyVec;
+	std::vector<std::unique_ptr<Enemy>> m_enemyVec;
 	std::vector<LevelData> m_levelData;
 
 	glm::vec2 m_position;

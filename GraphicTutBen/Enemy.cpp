@@ -1,9 +1,8 @@
-#include "Enemy.h"
+﻿#include "Enemy.h"
 
 Enemy::Enemy()
 {
-	m_level = std::make_unique<Level>();
-	m_level->init("Levels/LevelOne.txt");
+	m_level.init("Levels/LevelOne.txt");
 }
 
 void Enemy::initEnemy(glm::vec2 position, std::vector<LevelData>& data, int currentWave)
@@ -73,65 +72,58 @@ void Enemy::update(int screenWidth, int screenHeight, std::vector<LevelData>& da
 
 void Enemy::initEnemyWaves(std::vector<LevelData>& data)
 {
-	std::vector<std::string> levelData = m_level->getLevelData();
-	int vecCounter = 0;
-	data.push_back(LevelData());
+	std::vector<std::string> levelData = m_level.getLevelData();
+	data.clear();
 
-	for (int i = 0; i < levelData.size(); i++)
+	for (int i = 0; i < levelData.size(); ++i) 
 	{
-		if (i % 3 == 0 && i > 0)
-		{
-			vecCounter++;
-			data.push_back(LevelData());
-		}
-
 		std::stringstream ss(levelData[i]);
-		std::string tempInfo;
-		ss >> tempInfo;
+		std::string key;
+		ss >> key;
 
-		if (!(ss >> tempInfo))
+		if (i % 3 == 0) 
 		{
-			continue;
-		}
+			data.push_back(LevelData());
 
-		// Get number of ships in wave
-		if (i % 3 == 0)
-		{
-			try
+			int number;
+			ss >> number;
+			if (ss.fail()) 
 			{
-				data[vecCounter].numberOfShips = std::stoi(tempInfo);
+				data.back().numberOfShips = 0;
 			}
-			catch (const std::invalid_argument&)
+			else 
 			{
-				data[vecCounter].numberOfShips = 0;
+				data.back().numberOfShips = number;
 			}
 		}
-
-		// Get type of enemy ships
-		else if (i % 3 == 1)
+		else if (i % 3 == 1) 
 		{
-			if (tempInfo == "DRONE")
-				data[vecCounter].enemyType = ENEMY_TYPE::DRONE;
-			else if (tempInfo == "GUN_SHIP")
-				data[vecCounter].enemyType = ENEMY_TYPE::GUN_SHIP;
-			else if (tempInfo == "BATTLE_SHIP")
-				data[vecCounter].enemyType = ENEMY_TYPE::BATTLE_SHIP;
-			else if (tempInfo == "DESTROYER")
-				data[vecCounter].enemyType = ENEMY_TYPE::DESTROYER;
+			std::string type;
+			ss >> type;
+
+			if (type == "DRONE")
+				data.back().enemyType = ENEMY_TYPE::DRONE;
+			else if (type == "GUN_SHIP")
+				data.back().enemyType = ENEMY_TYPE::GUN_SHIP;
+			else if (type == "BATTLE_SHIP")
+				data.back().enemyType = ENEMY_TYPE::BATTLE_SHIP;
+			else if (type == "DESTROYER")
+				data.back().enemyType = ENEMY_TYPE::DESTROYER;
 		}
-
-		// Get enemy trajectory
-		else if (i % 3 == 2)
+		else if (i % 3 == 2) 
 		{
-			if (tempInfo == "WAVE_LIKE")
-				data[vecCounter].trajectory = TRAJECTORY::WAVE_LIKE;
-			else if (tempInfo == "VERTICAL")
-				data[vecCounter].trajectory = TRAJECTORY::VERTICAL;
+			std::string put;
+			ss >> put;
+
+			if (put == "WAVE_LIKE")
+				data.back().trajectory = TRAJECTORY::WAVE_LIKE;
+			else if (put == "VERTICAL")
+				data.back().trajectory = TRAJECTORY::VERTICAL;
 		}
 	}
 }
 
-void Enemy::addEnemyToVector(std::vector<Enemy*>& enemy, std::vector<LevelData>& waveData, int currentWave, glm::vec2& position, int screenWidth, int screenHeight)
+void Enemy::addEnemyToVector(std::vector<std::unique_ptr<Enemy>>& enemy, std::vector<LevelData>& waveData, int currentWave, glm::vec2& position, int screenWidth, int screenHeight)
 {
 	float shipInterspace = 120.0f;
 
@@ -142,8 +134,9 @@ void Enemy::addEnemyToVector(std::vector<Enemy*>& enemy, std::vector<LevelData>&
 
 	for (int i = 0; i < waveData[currentWave].numberOfShips; i++)
 	{
-		enemy.push_back(new Enemy);
-		enemy.back()->initEnemy(position, waveData, currentWave);
+		std::unique_ptr<Enemy> e = std::make_unique<Enemy>();
+		e->initEnemy(position, waveData, currentWave);
+		enemy.push_back(std::move(e));
 
 		if (waveData[currentWave].trajectory == TRAJECTORY::VERTICAL)
 		{
@@ -152,22 +145,17 @@ void Enemy::addEnemyToVector(std::vector<Enemy*>& enemy, std::vector<LevelData>&
 
 		if (waveData[currentWave].trajectory == TRAJECTORY::WAVE_LIKE)
 		{
-			position.y += enemy[i]->getWidth();
+			position.y += enemy.back()->getWidth();
 		}
 	}
 
 	m_isWaveDead = false;
 }
 
-void Enemy::isEnemyOnScreen(int screenWidth, int screenHeight, std::vector<Enemy*>& enemy)
+void Enemy::isEnemyOnScreen(int screenWidth, int screenHeight, std::vector<std::unique_ptr<Enemy>>& enemy)
 {
-	for (int i = 0; i < enemy.size(); i++)
-	{
-		if (enemy[i]->m_position.y < -(screenHeight / 2 + enemy[i]->m_texture.height))
+	enemy.erase(std::remove_if(enemy.begin(), enemy.end(),[screenHeight](const std::unique_ptr<Enemy>& e) 
 		{
-			delete enemy[i];
-			enemy[i] = enemy.back();
-			enemy.pop_back();
-		}
-	}
+				return e->m_position.y < -(screenHeight / 2 + e->m_texture.height);
+		}), enemy.end());
 }

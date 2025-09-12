@@ -14,8 +14,8 @@ public:
 
 	void update(bool isKeyPressed, int bulletsPerShots, const glm::vec2* position, const glm::vec2& direction, std::vector<Bullet>& bullets, float deltaTime);
 
-	bool getIsFired() { return  this->m_isFired; }
-	int getBulletsPerShoot() { return this->m_bulletsPerShoot; }
+	bool getIsFired() const { return  this->m_isFired; }
+	int getBulletsPerShoot() const { return this->m_bulletsPerShoot; }
 
 	void setIsFired(bool isFired) { m_isFired = isFired; }
 

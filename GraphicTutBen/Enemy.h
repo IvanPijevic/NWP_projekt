@@ -24,7 +24,7 @@ enum class ENEMY_TYPE
 
 struct LevelData
 {
-	int numberOfShips;
+	int numberOfShips = 0;
 	ENEMY_TYPE enemyType;
 	TRAJECTORY trajectory;
 };
@@ -39,12 +39,12 @@ public:
 	void update(int screenWidth, int screenHeight, std::vector<LevelData>& data, int currentWave, float deltaTime);
 
 	void initEnemyWaves(std::vector<LevelData>& data);
-	void addEnemyToVector(std::vector<Enemy*>& enemy, std::vector<LevelData>& waveData, int currentWave, glm::vec2& position, int screenWidth, int screenHeight);
-	void isEnemyOnScreen(int screenWidth, int screenHeight, std::vector<Enemy*>& enemy);
+	void addEnemyToVector(std::vector<std::unique_ptr<Enemy>>& enemy, std::vector<LevelData>& waveData, int currentWave, glm::vec2& position, int screenWidth, int screenHeight);
+	void isEnemyOnScreen(int screenWidth, int screenHeight, std::vector<std::unique_ptr<Enemy>>& enemy);
 
-	const bool getIsWaveDead()& { return m_isWaveDead; }
-	int getHealthPoints()& { return m_healthPoints; }
-	int getShipsDestroyed()& { return m_shipsDestroyed; }
+	bool getIsWaveDead() const { return m_isWaveDead; }
+	int getHealthPoints() const  { return m_healthPoints; }
+	int getShipsDestroyed() const { return m_shipsDestroyed; }
 
 	
 	void setIsWaveDead(bool isDead) { m_isWaveDead = isDead; }
@@ -59,7 +59,7 @@ private:
 
 	bool m_isWaveDead = true;
 
-	std::unique_ptr<Level> m_level;
+	Level m_level;
 };
 
 #endif
