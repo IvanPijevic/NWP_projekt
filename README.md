@@ -1,4 +1,4 @@
-Game:
+# Game:
 Kontrole: W - gore, S - dole, A - lijevo, D - desno, RAZMAK - pucanje, Q - 1. laser, E - 2. laser
 
 Projekt "Engine" je preuzet (nije moj).
@@ -15,36 +15,38 @@ Ručno buildanje:
 Ako buildate projekte ručno (npr. putem CMake-a ili drugog build sustava), prvo buildajte Engine projekt kako biste generirali potrebne biblioteke.  
 Zatim buildajte GraphicTutBen projekt koji koristi te biblioteke.  
 
-Struktura projekta:
-***************************************************************************************
-GraphicTutBen/                        # Main project folder
+# Struktura projekta:
 
-├── Dev/                              # Development-related files
+GraphicTutBen/                        *# Main project folder*
 
-├── Engine/                           # Engine folder
+├── **Dev/**                              *# Development-related files*
 
-├── GraphicTutBen/                    # Game folder
+├── **Engine/**                           *# Engine folder*
 
-│   ├── Levels/                       # Level folder
+├── **GraphicTutBen/**                   *# Game folder*
 
-│   │   ├── LevelOne.txt              # Level data file
+│   ├── **Levels/**                       *# Level folder*
 
-│   ├── Shaders/                      # Folder for shader files, glsl
+│   │   ├── **LevelOne.txt**              *# Level data file*
 
-│   ├── Textures/                     # Folder for texture assets
+│   ├── **Shaders/**                      *# Folder for shader files, glsl*
 
-├── GraphicTutBen.sln                 
-***************************************************************************************
+│   ├── **Textures/**                     *# Folder for texture assets*
 
-Za pokretanje:  
+├── **GraphicTutBen.sln**                 
+
+
+# Pokretanje:  
 Za ispravno pokretanje projekta, sljedeće DLL datoteke iz direktorija Dev moraju biti kopirane u Debug i/ili Release direktorije, ovisno o konfiguraciji u kojoj gradite projekt:  
-freeglut.dll  
-glew32.dll  
-libfreetype-6.dll  
-SDL2.dll  
-SDL2_ttf.dll  
-zlib1.dll  
-***************************************************************************************
+
+**freeglut.dll**  
+**glew32.dll**  
+**libfreetype-6.dll**  
+**SDL2.dll**  
+**SDL2_ttf.dll**  
+**zlib1.dll**  
+
+# Editor
 LevelOne.txt u direktoriju GraphicTutBen/Levels/ definira valove neprijatelja u igri. Svaki val neprijatelja opisan je s tri reda koji specificiraju broj neprijateljskih brodova, njihov tip i putanju kretanja.  
 Format vala
 ***************************************************************************************
@@ -68,18 +70,21 @@ NumberOfEnemyShips: Promijenite broj (npr. 4 u 6).
 TypeOfEnemyShips: Promijenite tip (npr. DRONE u BATTLE_SHIP).  
 EnemyTrajectory: Promijenite putanju (npr. VERTICAL u WAVE_LIKE).
 ***************************************************************************************
+# Vrste brodova
 Igra sadrži četiri različite vrste brodova, a jedina razlika između njih je količina hp-a. U nastavku je popis brodova i njihovih vrijednosti HP-a:  
 Dron: 20 HP  
 Gun ship: 30 HP  
 Battle ship: 40 HP  
 Destroyer: 50 HP  
-***************************************************************************************
+
+# Putanje brodova
 Igra uključuje dvije različite putanje kretanja brodova, koje definiraju njihov obrazac kretanja na ekranu. U nastavku su opisane putanje:  
 Vertikalna putanja - VERTICAL:  
 Brodovi se kreću ravno od vrha ekrana prema dolje. Ova putanja je linearna i predvidljiva, omogućavajući jednostavno praćenje kretanja broda.  
 Valovita (sinusoidna) putanja - WAVE_LIKE:  
 Brodovi se kreću od vrha ekrana prema dolje slijedeći sinusoidni obrazac, što rezultira valovitim kretanjem.
-***************************************************************************************
+
+# Uvjeti prekida igre
 Igra se prekida u sljedećim situacijama:  
 Uništenje zadnjeg neprijatelja u zadnjem valu  
 Zadnji val izađe van ekrana  
