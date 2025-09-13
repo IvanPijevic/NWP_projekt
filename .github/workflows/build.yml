@@ -19,8 +19,20 @@ jobs:
         choco install mingw
         echo "MinGW installed"
 
+    - name: Set up SDL2
+      run: |
+        choco install sdl2
+        echo "SDL2 installed"
+
     - name: Build project (32-bit)
       shell: pwsh
       run: |
+        # Postavljanje putanja za SDL
         $env:PATH = "C:\tools\mingw\bin;" + $env:PATH
-        g++ -m32 -o output_binary GraphicTutBen\Main.cpp
+        $env:INCLUDE = "C:\Dev\include;" + $env:INCLUDE
+        $env:LIB = "C:\Dev\lib;" + $env:LIB
+        $env:SDL_DLL_PATH = "C:\Dev"  # Putanja gdje se nalazi SDL.dll
+        $env:PATH = $env:SDL_DLL_PATH + ";" + $env:PATH
+
+        # Kompajliranje projekta
+        g++ -m32 -o output_binary GraphicTutBen\Main.cpp -I$env:INCLUDE -L$env:LIB -lSDL2
