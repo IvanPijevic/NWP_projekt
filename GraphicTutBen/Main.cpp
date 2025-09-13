@@ -1,4 +1,5 @@
 #include "System.h"
+#include <SDL/SDL.h>
 
 #include <string>
 
