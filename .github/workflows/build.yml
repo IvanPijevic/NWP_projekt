@@ -1,10 +1,10 @@
-name: C++ Build
+name: C++ Build (Win32)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -14,17 +14,26 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup MSVC environment
+      - name: Setup MSVC (x86)
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
 
       - name: Build Project
         run: |
-          cl /EHsc /IDev/include /Iinclude ^
+          cl /nologo /EHsc /MD /IDev/include /Iinclude ^
             GraphicTutBen/Agent.cpp ^
-            /link ^
+            /Fe:MyGame32.exe ^
+            /link /MACHINE:X86 ^
             /LIBPATH:Dev/lib ^
             SDL2.lib SDL2main.lib SDL2_ttf.lib SDL2test.lib ^
             glew32.lib glew32s.lib ^
             freeglut.lib ^
             opengl32.lib gdi32.lib user32.lib kernel32.lib ^
-            freetype.lib zlib1.lib
+            libfreetype-6.lib zlib1.lib
+
+      - name: Copy DLLs
+        run: |
+          mkdir output
+          copy Dev\lib\*.dll output\
+          move MyGame32.exe output\
