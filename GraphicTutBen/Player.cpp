@@ -4,10 +4,8 @@ void Player::addWeapon(Weapon weapon)
 {
 	m_weapons.push_back(weapon);
 
-	if (m_weaponNumber == -1)
-	{
-		m_weaponNumber = 0;
-	}
+	m_weaponNumber = 0;
+
 }
 
 void Player::init(float speed, int health, int lives, glm::vec2 position, Engine::InputManager* input, std::vector<Bullet>* bullets)

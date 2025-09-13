@@ -87,15 +87,12 @@ void Enemy::initEnemyWaves(std::vector<LevelData>& data)
 
 			int number;
 			ss >> number;
-			if (ss.fail()) 
-			{
-				data.back().numberOfShips = 0;
-			}
-			else 
+			if (!ss.fail())
 			{
 				data.back().numberOfShips = number;
 			}
 		}
+
 		else if (i % 3 == 1) 
 		{
 			std::string type;
@@ -110,6 +107,7 @@ void Enemy::initEnemyWaves(std::vector<LevelData>& data)
 			else if (type == "DESTROYER")
 				data.back().enemyType = ENEMY_TYPE::DESTROYER;
 		}
+
 		else if (i % 3 == 2) 
 		{
 			std::string put;
