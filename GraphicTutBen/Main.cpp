@@ -6,7 +6,7 @@
 
 #include <string>
 
-int main(int argc, char* argv[])
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	System system;
 	system.Run();

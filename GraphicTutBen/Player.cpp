@@ -3,7 +3,6 @@
 void Player::addWeapon(Weapon weapon)
 {
 	m_weapons.push_back(weapon);
-
 	m_weaponNumber = 0;
 
 }
