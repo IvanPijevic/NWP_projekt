@@ -20,6 +20,7 @@ jobs:
         echo "MinGW installed"
 
     - name: Build project (32-bit)
+      shell: pwsh
       run: |
-        set PATH=C:\tools\mingw\bin;%PATH%
+        $env:PATH = "C:\tools\mingw\bin;" + $env:PATH
         g++ -m32 -o output_binary src\main.cpp
