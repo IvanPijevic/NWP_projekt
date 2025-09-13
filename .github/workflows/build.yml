@@ -9,29 +9,57 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Set up MinGW for 32-bit
+    - name: Install Chocolatey packages (MinGW + SDL2)
+      shell: pwsh
       run: |
-        choco install mingw
-        echo "MinGW installed"
+        Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+        choco install mingw --version=8.1.0
+        choco install sdl2
+        echo "MinGW and SDL2 installed via Choco"
 
-    - name: Set up SDL2 paths (relative to the repo)
+    - name: Verify SDL2 structure (debug)
+      shell: pwsh
       run: |
-        echo "Assuming SDL2 is located in /Dev/ folder within the repo"
+        $sdlInclude = "Dev/SDL/include"
+        $sdlLib = "Dev/SDL/lib"
+        $glewInclude = "Dev/SDL/include"
+        $glewLib = "Dev/SDL/lib"
+        $glutInclude = "Dev/SDL/include"
+        $glutLib = "Dev/SDL/lib"
+        if (Test-Path $sdlInclude) { 
+          Write-Output "SDL include found: $sdlInclude"
+          Get-ChildItem $sdlInclude -Recurse -Name | Where-Object { $_.EndsWith('.h') } | Write-Output
+        } else { 
+          Write-Warning "SDL include NOT found at $sdlInclude" 
+        }
+        if (Test-Path $sdlLib) { 
+          Write-Output "SDL lib found: $sdlLib"
+          Get-ChildItem $sdlLib -Name | Where-Object { $_.EndsWith('.a') -or $_.EndsWith('.lib') } | Write-Output
+        } else { 
+          Write-Warning "SDL lib NOT found at $sdlLib" 
+        }
 
-        # Postavljanje relativnih putanja unutar repozitorija
-        $env:INCLUDE = "Dev/include" + ";" + $env:INCLUDE
-        $env:LIB = "Dev/lib" + ";" + $env:LIB
-        $env:SDL_DLL_PATH = "Dev/"  # Putanja do SDL.dll unutar repozitorija
-        $env:PATH = $env:SDL_DLL_PATH + ";" + $env:PATH
-        echo "SDL2 setup complete"
+    - name: Set up paths (from repo Dev/SDL)
+      shell: pwsh
+      run: |
+        $includePath = "Dev/SDL/include"
+        $libPath = "Dev/SDL/lib"
+        $binPath = "Dev/SDL/bin"
+        $env:INCLUDE = $includePath + ";" + $env:INCLUDE
+        $env:LIB = $libPath + ";" + $env:LIB
+        $env:PATH = $binPath + ";" + $env:PATH
+        echo "Final paths: INCLUDE=$env:INCLUDE | LIB=$env:LIB | PATH includes $binPath"
 
     - name: Build project (32-bit)
       shell: pwsh
       run: |
-        # Kompajliranje s ispravnim putanjama
-        g++ -m32 -o output_binary GraphicTutBen\Main.cpp -I$env:INCLUDE -L$env:LIB -lSDL2
+        g++ -m32 -Wall -o output_binary.exe GraphicTutBen/Main.cpp GraphicTutBen/*.cpp -I"$env:INCLUDE" -L"$env:LIB" -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lGLEW32 -lfreeglut -lopengl32
+        if ($LASTEXITCODE -ne 0) { 
+          Write-Error "Build failed! Provjeri logove gore za putanje." 
+          exit 1 
+        }
+        echo "Build SUCCESS! Output: output_binary.exe"
