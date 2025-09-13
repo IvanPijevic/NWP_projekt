@@ -6,7 +6,7 @@
 
 #include <string>
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	System system;
 	system.Run();
