@@ -1,21 +1,25 @@
-name: Build 32-bit C++
+name: Build 32-bit C++ on Windows
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Install 32-bit libs
-      run: sudo apt-get update && sudo apt-get install g++-multilib
+    - name: Set up MinGW for 32-bit
+      run: |
+        choco install mingw
+        echo "MinGW installed"
 
     - name: Build project (32-bit)
-      run: g++ -m32 -o output_binary src/main.cpp
+      run: |
+        set PATH=C:\tools\mingw\bin;%PATH%
+        g++ -m32 -o output_binary src\main.cpp
