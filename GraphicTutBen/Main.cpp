@@ -1,5 +1,8 @@
-#include "System.h"
 #include <SDL/SDL.h>
+#include <SDL/SDL_main.h>
+
+#include "System.h"
+
 
 #include <string>
 
