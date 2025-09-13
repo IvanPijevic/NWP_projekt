@@ -38,23 +38,25 @@ void BackgroundElements::pickStarPosition(int screenWidth, int screenHeight)
 void BackgroundElements::updateBackground(float deltaTime, int screenHeight)
 
 {
-	for (int i = 0; i < m_starPosition.size(); i++)
-	{
-		//Move star down
-		m_starPosition[i].y = m_starPosition[i].y - m_starSpeed * deltaTime;
-
-		//If offfscreen delete star
-		if (m_starPosition[i].y < (-screenHeight / 2))
+	std::vector<glm::vec2>::iterator newEnd = std::remove_if(m_starPosition.begin(),m_starPosition.end(),[&](glm::vec2& pos)
 		{
-			//Delete star type
-			m_starID[i] = m_starID.back();
-			m_starID.pop_back();
+			bool offscreen = pos.y < (-screenHeight / 2);
+			if (offscreen) 
+			{
+				size_t i = &pos - &m_starPosition[0];
+				m_starID[i] = m_starID.back();
+				m_starID.pop_back();
+			}
 
-			//Delete star texture
-			m_starPosition[i] = m_starPosition.back();
-			m_starPosition.pop_back();
-		}
-	}
+			else
+			{
+				pos.y -= m_starSpeed * deltaTime;
+			}
+			return offscreen;
+		});
+
+	m_starPosition.erase(newEnd, m_starPosition.end());
+
 }
 
 void BackgroundElements::randomStarTexture()
@@ -72,13 +74,11 @@ void BackgroundElements::randomStarTexture()
 
 void BackgroundElements::drawStars(Engine::SpriteBatch& spriteBatch)
 {
-	for (int i = 0; i < m_starPosition.size(); i++)
-	{
-		glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
+	glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
 
-		glm::vec4 posAndDim(m_starPosition[i].x, m_starPosition[i].y, m_stars[0].width, m_stars[0].height);
-
-		spriteBatch.draw(posAndDim, uv, m_starID[i], 0.0f, m_color);
-
-	}
+	std::for_each(m_starPosition.begin(), m_starPosition.end(), [&](const glm::vec2& pos) 
+		{
+			size_t i = &pos - &m_starPosition[0];
+			glm::vec4 posAndDim(pos.x, pos.y, m_stars[0].width, m_stars[0].height);
+			spriteBatch.draw(posAndDim, uv, m_starID[i], 0.0f, m_color);});
 }

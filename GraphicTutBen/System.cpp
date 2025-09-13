@@ -304,18 +304,19 @@ void System::updateBullets(float deltaTime)
 			{
 				// Reduce health points
 				m_enemyVec[i]->setHealthPoints(m_enemyVec[i]->getHealthPoints() - m_bullets[j].getDamage());
+
 				// Delete bullet
-				m_bullets[j] = std::move(m_bullets.back());
-				m_bullets.pop_back();
+				m_bullets.erase(m_bullets.begin() + j);
 				--j;
+
 				if (m_enemyVec[i]->getHealthPoints() <= 0)
 				{
 					// Update destroyed ships
 					m_enemy.setShipsDestroyed(m_enemy.getShipsDestroyed() + 1);
+
 					// Delete enemy ship from vector
-					m_enemyVec[i] = std::move(m_enemyVec.back());
-					m_enemyVec.pop_back();
-					--i; 
+					m_enemyVec.erase(m_enemyVec.begin() + i);
+					--i;
 					break;
 				}
 			}
@@ -362,8 +363,7 @@ void System::updateAgents(float deltaTime)
 		if (m_player.colideWithEnemy(m_enemyVec[i].get()))
 		{
 			m_player.setHealthPoints(m_player.getHP() - m_enemyVec[i]->getHealthPoints() * 2);
-			m_enemyVec[i] = std::move(m_enemyVec.back());
-			m_enemyVec.pop_back();
+			m_enemyVec.erase(m_enemyVec.begin() + i);
 			--i;
 
 			if (m_player.getHP() < 0)

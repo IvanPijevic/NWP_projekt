@@ -13,6 +13,11 @@
 #include "Effect.h"
 #include "BackgroundElements.h"
 
+#include <algorithm>
+#include <execution>
+#include <vector>	
+
+
 class Player : public Agent
 {
 public:

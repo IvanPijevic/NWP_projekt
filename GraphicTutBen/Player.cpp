@@ -81,10 +81,11 @@ void Player::update(Engine::InputManager& input, int screenWidth, int screenHeig
 		{
 			pos[0].x -= 9;  //Center effect position
 
-			for (int i = 0; i < m_weapons[m_weaponNumber].getBulletsPerShoot(); i++)
-			{
-				m_effects.push_back(Effect(pos[0], EFFECT::PLAYER_FIRE));
-			}
+			int bullets = m_weapons[m_weaponNumber].getBulletsPerShoot();
+			std::for_each_n(std::execution::seq,m_effects.end(),bullets,[&](Effect&) 
+				{
+					m_effects.push_back(Effect(pos[0], EFFECT::PLAYER_FIRE));
+				});
 
 			m_weapons[m_weaponNumber].setIsFired(false);
 		}
@@ -109,16 +110,11 @@ void Player::update(Engine::InputManager& input, int screenWidth, int screenHeig
 	}
 
 	//Update fire effects
-	for (int i = 0; i < m_effects.size(); i++)
-	{
-		m_effects[i].updateFireEffect(deltaTime);
-
-		if (m_effects[i].getColorA() < m_effects[i].getFadeSpeed())
+	m_effects.erase(std::remove_if(m_effects.begin(),m_effects.end(),[deltaTime](Effect& e)
 		{
-			m_effects[i] = m_effects.back();
-			m_effects.pop_back();
-		}
-	}
+			e.updateFireEffect(deltaTime);
+			return e.getColorA() < e.getFadeSpeed();
+		}),m_effects.end());
 }
 
 void Player::draw(Engine::SpriteBatch& spriteBatch)
