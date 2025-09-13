@@ -1,0 +1,21 @@
+name: Build 32-bit C++
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Install 32-bit libs
+      run: sudo apt-get update && sudo apt-get install g++-multilib
+
+    - name: Build project (32-bit)
+      run: g++ -m32 -o output_binary src/main.cpp
