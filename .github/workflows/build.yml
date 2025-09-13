@@ -19,14 +19,14 @@ jobs:
         choco install mingw
         echo "MinGW installed"
 
-    - name: Set up SDL2 paths
+    - name: Set up SDL2 paths (relative to the repo)
       run: |
-        echo "Assuming SDL2 is located in /Dev/ folder"
-        
-        # Postavljanje putanja za SDL
-        $env:INCLUDE = "C:\a\repo\Dev\include;" + $env:INCLUDE
-        $env:LIB = "C:\a\repo\Dev\lib;" + $env:LIB
-        $env:SDL_DLL_PATH = "C:\a\repo\Dev\bin"  # Putanja do SDL.dll
+        echo "Assuming SDL2 is located in /Dev/ folder within the repo"
+
+        # Postavljanje relativnih putanja unutar repozitorija
+        $env:INCLUDE = "Dev/include" + ";" + $env:INCLUDE
+        $env:LIB = "Dev/lib" + ";" + $env:LIB
+        $env:SDL_DLL_PATH = "Dev/"  # Putanja do SDL.dll unutar repozitorija
         $env:PATH = $env:SDL_DLL_PATH + ";" + $env:PATH
         echo "SDL2 setup complete"
 
