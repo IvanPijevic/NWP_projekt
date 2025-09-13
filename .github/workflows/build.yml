@@ -23,7 +23,7 @@ jobs:
         run: |
           cl /nologo /EHsc /MD /IDev/include /Iinclude ^
             GraphicTutBen/Agent.cpp ^
-            /Fe:MyGame32.exe ^
+            /Fe:GraphicTutBen.exe ^
             /link /MACHINE:X86 ^
             /LIBPATH:Dev/lib ^
             SDL2.lib SDL2main.lib SDL2_ttf.lib SDL2test.lib ^
