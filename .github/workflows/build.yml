@@ -20,20 +20,19 @@ jobs:
           arch: x86
 
       - name: Build Project
+        shell: cmd
         run: |
-          cl /nologo /EHsc /MD /IDev/include /Iinclude ^
-            GraphicTutBen/Agent.cpp ^
-            /Fe:GraphicTutBen.exe ^
-            /link /MACHINE:X86 ^
-            /LIBPATH:Dev/lib ^
-            SDL2.lib SDL2main.lib SDL2_ttf.lib SDL2test.lib ^
-            glew32.lib glew32s.lib ^
-            freeglut.lib ^
-            opengl32.lib gdi32.lib user32.lib kernel32.lib ^
-            libfreetype-6.lib zlib1.lib
+          cl /nologo /EHsc /MD /IDev/include /Iinclude GraphicTutBen\Agent.cpp /Fe:GraphicTutBen.exe /link /MACHINE:X86 /LIBPATH:Dev\lib SDL2.lib SDL2main.lib SDL2_ttf.lib SDL2test.lib glew32.lib glew32s.lib freeglut.lib opengl32.lib gdi32.lib user32.lib kernel32.lib libfreetype-6.lib zlib1.lib
 
       - name: Copy DLLs
+        shell: cmd
         run: |
           mkdir output
           copy Dev\lib\*.dll output\
-          move MyGame32.exe output\
+          move GraphicTutBen.exe output\
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GraphicTutBen-Win32
+          path: output\
