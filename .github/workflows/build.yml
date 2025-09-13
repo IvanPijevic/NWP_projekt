@@ -20,7 +20,7 @@ jobs:
           arch: x86
 
       - name: Build Project
-        run: cl /nologo /EHsc /MD /I. /IDev/include /Iinclude /IEngine GraphicTutBen\*.cpp Engine\*.cpp /Fe:GraphicTutBen.exe /link /MACHINE:X86 /LIBPATH:Dev\lib SDL2.lib SDL2main.lib SDL2_ttf.lib SDL2test.lib glew32.lib glew32s.lib freeglut.lib opengl32.lib gdi32.lib user32.lib kernel32.lib freetype.lib zlib1.lib
+        run: cl /nologo /EHsc /MD /I. /IDev/include /Iinclude /IEngine GraphicTutBen\*.cpp Engine\*.cpp /Fe:GraphicTutBen.exe /link /MACHINE:X86 /LIBPATH:Dev\lib SDL2.lib SDL2main.lib SDL2_ttf.lib SDL2test.lib glew32.lib glew32s.lib freeglut.lib opengl32.lib gdi32.lib user32.lib kernel32.lib freetype.lib zlib.lib
 
       - name: Copy DLLs
         shell: cmd
