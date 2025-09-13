@@ -23,4 +23,4 @@ jobs:
       shell: pwsh
       run: |
         $env:PATH = "C:\tools\mingw\bin;" + $env:PATH
-        g++ -m32 -o output_binary src\main.cpp
+        g++ -m32 -o output_binary GraphicTutBen\Main.cpp
