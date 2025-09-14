@@ -72,7 +72,7 @@ void Enemy::update(int screenWidth, int screenHeight, std::vector<LevelData>& da
 
 void Enemy::initEnemyWaves(std::vector<LevelData>& data)
 {
-	std::vector<std::string> levelData = m_level.getLevelData();
+	const std::vector<std::string>& levelData = m_level.getLevelData();
 	data.clear();
 
 	for (int i = 0; i < levelData.size(); ++i) 
